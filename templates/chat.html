@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Flask-SocketIO Test</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/reset.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}" />
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+        $(document).ready(function() {
+
+            var socket = io.connect();
+            var room = window.location.pathname.split('/')[2];
+
+            socket.on('connect', function(msg) {
+
+            socket.emit('connected', {data: room });
+
+          });
+          socket.on('disconnect', function(msg) {
+
+          socket.emit('disconnected', {data: room });
+
+        });
+          socket.on('message_event', function(msg) {
+            $('#chatbox').append('<span class = "username">' + msg.user + '</span> : '
+             + '<span class = "message">' + msg.data + '</span><br>');
+             $("#send_room")[0].reset();
+
+        });
+
+        $('form#send_room').submit(function(event) {
+          if ($('#room_data').val() != '')
+              socket.emit('send_message', {room: room, data: $('#room_data').val()});
+              return false;
+          });
+          $('form#disconnect').submit(function(event) {
+                socket.emit('disconnected', {data: room});
+                window.location.href = 'http://www.google.com';
+                return false;
+            });
+            $('form#close').submit(function(event) {
+               socket.emit('close_room', {room: room});
+               return false;
+           });
+
+
+
+        });
+    </script>
+</head>
+<body>
+
+  <div id="headerbox">
+    <form id="disconnect" method="POST" action="#">
+        <input type="submit" value="Disconnect">
+    </form>
+  </div>
+  <div id="chatbox">
+
+  </div>
+  <div id="textbox">
+    <form id="send_room" method="POST" action='#'>
+
+         <input type="text" name="room_data" id="room_data" placeholder="Message">
+         <input type="submit" value="Send">
+     </form>
+  </div>
+
+</body>
+</html>
