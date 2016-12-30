@@ -6,7 +6,7 @@ import random, string
 users = {}
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
-socketio = SocketIO(app)
+socketio = SocketIO(app, async_mode=async_mode)
 
 @app.route('/favicon.ico')
 def favicon():
@@ -18,7 +18,7 @@ def index(username):
     if 'username' not in session:
         session['username'] = username
         users.update({username:''})
-    return render_template('index.html')
+    return render_template('index.html', async_mode=async_mode)
 
 @socketio.on('connect')
 def tconnect():
@@ -43,7 +43,7 @@ def send_request(message):
 @app.route('/room/<code>')
 def room(code):
     if 'username' in session:
-        return render_template('chat.html')
+        return render_template('chat.html', async_mode=async_mode)
 
 @socketio.on('connected')
 def connect(message):
