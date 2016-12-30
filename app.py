@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, session, redirect, url_for
 from flask_socketio import SocketIO, emit, join_room, leave_room,\
     close_room, rooms, disconnect
 import random, string
-
+async_mode = None
 users = {}
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
