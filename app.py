@@ -10,7 +10,7 @@ socketio = SocketIO(app)
 
 
 
-@app.route('/<username>')
+@app.route('/user/<username>')
 def index(username):
     if 'username' not in session:
         session['username'] = username
