@@ -40,7 +40,7 @@
 
           socket.on('send_request', function(msg) {
            console.log(msg.data);
-           window.location.replace('\/room\/' + msg.data);
+         	window.location.href = '\/room\/' + msg.data;
 
         });
 

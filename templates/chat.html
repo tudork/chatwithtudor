@@ -13,6 +13,22 @@
 
             var socket = io.connect();
             var room = window.location.pathname.split('/')[2];
+            var reader  = new FileReader();
+            function loadFile() {
+
+              var file    = document.querySelector('input[type=file]').files[0];
+              var filename = document.querySelector('input[type=file]').value.replace(/^.*[\\\/]/, '');
+              var reader  = new FileReader();
+
+              reader.addEventListener("load", function () {
+                socket.emit('send_file', {room: room, filename: filename, data: reader.result});
+              }, false);
+
+              if (file) {
+                reader.readAsText(file);
+              }
+            }
+
 
             socket.on('connect', function(msg) {
 
@@ -30,10 +46,19 @@
              $("#send_room")[0].reset();
 
         });
+        socket.on('file_event', function(msg) {
+
+           $('#chatbox').append('<span class = "username">' + msg.user + '</span> : '
+            + '<span class = "message"><a href = "http://localhost:5000/file/'
+            + msg.url + msg.file_ext + '">' + msg.data + '</a></span><br>');
+            $("#send_room")[0].reset();
+
+      });
 
         $('form#send_room').submit(function(event) {
           if ($('#room_data').val() != '')
               socket.emit('send_message', {room: room, data: $('#room_data').val()});
+          loadFile();
               return false;
           });
           $('form#disconnect').submit(function(event) {
@@ -65,7 +90,9 @@
     <form id="send_room" method="POST" action='#'>
 
          <input type="text" name="room_data" id="room_data" placeholder="Message">
+
          <input type="submit" value="Send">
+         <input  type="file"/>
      </form>
   </div>
 

@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Flask-SocketIO Test</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/reset.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}" />
+</head>
+<body>
+
+
+  <div id="registerbox">
+
+    <form id="form1" action="/login" method="post">
+  <input type="text" name="username" placeholder="Username"><br>
+  <input type="password" name="password" placeholder="Password"><br>
+  <input type="radio" name="radiosearch" onclick="document.getElementById('form1').action='/login';" checked="checked"/> login
+<input type="radio" name="radiosearch" onclick="document.getElementById('form1').action='/register';"/>register
+  <input type="submit" value="Submit">
+</form>
+  </div>
+
+
+
+</body>
+</html>
