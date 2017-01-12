@@ -49,7 +49,7 @@
         socket.on('file_event', function(msg) {
 
            $('#chatbox').append('<span class = "username">' + msg.user + '</span> : '
-            + '<span class = "message"><a href = "http://localhost:5000/file/'
+            + '<span class = "message"><a href = "http://chatwithtudor.herokuapp.com/file/'
             + msg.url + msg.file_ext + '">' + msg.data + '</a></span><br>');
             $("#send_room")[0].reset();
 
