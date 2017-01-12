@@ -1,1 +1,1 @@
-[This app on heroku (logged in as guest)](http://chatwithtudor.herokuapp.com/user/guest)
+[This app on heroku](http://chatwithtudor.herokuapp.com/)
