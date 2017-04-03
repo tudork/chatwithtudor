@@ -43,7 +43,7 @@
           socket.on('message_event', function(msg) {
             $('#chatbox').append('<span class = "username">' + msg.user + '</span> : '
              + '<span class = "message">' + msg.data + '</span><br>');
-             $("#send_room")[0].reset();
+             
 
         });
         socket.on('file_event', function(msg) {
@@ -51,13 +51,14 @@
            $('#chatbox').append('<span class = "username">' + msg.user + '</span> : '
             + '<span class = "message"><a href = "http://chatwithtudor.herokuapp.com/file/'
             + msg.url + msg.file_ext + '">' + msg.data + '</a></span><br>');
-            $("#send_room")[0].reset();
+            
 
       });
 
         $('form#send_room').submit(function(event) {
           if ($('#room_data').val() != '')
               socket.emit('send_message', {room: room, data: $('#room_data').val()});
+$("#send_room")[0].reset();
           loadFile();
               return false;
           });
@@ -89,7 +90,7 @@
   <div id="textbox">
     <form id="send_room" method="POST" action='#'>
 
-         <input type="text" name="room_data" id="room_data" placeholder="Message">
+         <input type="text" name="room_data" id="room_data" placeholder="Message" autocomplete="off">
 
          <input type="submit" value="Send">
          <input  type="file"/>
